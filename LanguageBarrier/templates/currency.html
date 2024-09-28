@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+
+    <style>
+        /* Consistent styling with home.html */
+
+        /* Body, font, and background consistency */
+        body {
+            background-color: #f4f4f4; /* Same background color as home.html */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top Navbar for consistency */
+        .top-navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: purple;
+        }
+
+        /* Container for the form */
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            margin: 60px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Form styles */
+        form input, select, button {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 2px solid #dcdcdc;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            outline: none;
+        }
+
+        .msg {
+            margin: 1.5rem 0;
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Button styles */
+        form button {
+            background-color: #6229A3;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 0.75rem;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #7949bc;
+        }
+
+        /* Ensure mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 90vw;
+            }
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+            font-size: 20px;
+        }
+
+        footer a {
+            color: white;
+            padding-left: 1rem;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: none;
+            color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navbar from home.html -->
+    <nav class="top-navbar">
+        <a id='logo' href="{% url 'home' %} "><div class="logo">MyWebsite</div></a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}"><span>Home</span></a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Currency Converter Form -->
+    <div class="container">
+        <h2>Currency Converter</h2>
+
+        <form>
+            <div class="amount">
+                <p>Enter the amount</p>
+                <input type="text" value="1">
+            </div>
+
+            <div class="dropdown">
+                <div class="from">
+                    <p>From</p>
+                    <div class="select-container">
+                        <img src="https://flagsapi.com/US/flat/64.png" alt="From Country Flag">
+                        <select name="From"></select>
+                    </div>
+                </div>
+
+                <div class="to">
+                    <p>To</p>
+                    <div class="select-container">
+                        <img src="https://flagsapi.com/NP/flat/64.png" alt="To Country Flag">
+                        <select name="To"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="msg">1 USD = 135 NPR</div>
+            <button>Exchange the money</button>
+        </form>
+    </div>
+
+    <!-- Footer from home.html -->
+    <footer>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+    </footer>
+
+    <script>
+        const Base_Url = 'https://api.currencyapi.com/v3/latest';
+        const API_KEY = 'cur_live_Fkwf2VYX0TzBtvySJ8SOWiOP9Z38Ze3Fbewi4Syq';
+        const dropdowns = document.querySelectorAll(".dropdown select");
+
+        const countryList = {
+            INR: "IN",  // India
+            CNY: "CN",  // China
+            GBP: "GB",  // England (Great Britain)
+            USD: "US",  // USA
+            EUR: "ES",  // Spain (Euro)
+            EUR: "FR",  // France (Euro)
+            EUR: "DE",  // Germany (Euro)
+            NPR: 'NP'
+        };
+
+        const btn = document.querySelector("form button");
+        const fromCurr = document.querySelector(".from select");
+        const toCurr = document.querySelector(".to select");
+        const msg = document.querySelector(".msg");
+
+        for (let select of dropdowns) {
+            for (let currCode in countryList) {
+                let newOption = document.createElement("option");
+                newOption.innerText = currCode;
+                newOption.value = currCode;
+                if (select.name === "From" && currCode === "USD") {
+                    newOption.selected = true;
+                } else if (select.name === "To" && currCode === "INR") {
+                    newOption.selected = true;
+                }
+                select.append(newOption);
+            }
+
+            select.addEventListener("change", (evt) => {
+                updateFlag(evt.target);
+            });
+        }
+
+        const updateExchangeRate = async () => {
+            let amount = document.querySelector(".amount input");
+            let amtVal = parseFloat(amount.value);
+            if (isNaN(amtVal) || amtVal < 1) {
+                amtVal = 1;
+                amount.value = "1";
+            }
+
+            const url = `${Base_Url}?apikey=${API_KEY}&currencies=${toCurr.value}&base_currency=${fromCurr.value}`;
+
+            try {
+                let response = await fetch(url, { method: 'GET' });
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                let data = await response.json();
+                let rate = data.data[toCurr.value].value;
+                let finalAmount = amtVal * rate;
+                msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount.toFixed(2)} ${toCurr.value}`;
+            } catch (error) {
+                msg.innerText = `Error: ${error.message}`;
+            }
+        };
+
+        const updateFlag = (element) => {
+            let currCode = element.value;
+            let countryCode = countryList[currCode];
+            let newSrc = `https://flagsapi.com/${countryCode}/flat/64.png`;
+            let img = element.parentElement.querySelector("img");
+            img.src = newSrc;
+        };
+
+        btn.addEventListener("click", (evt) => {
+            evt.preventDefault();
+            updateExchangeRate();
+        });
+
+        window.addEventListener("load", () => {
+            updateExchangeRate();
+        });
+    </script>
+</body>
+
+</html>

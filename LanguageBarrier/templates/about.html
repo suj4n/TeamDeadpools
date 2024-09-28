@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="first.css">
+    <style>
+        /* Reset for the body */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Simple Top Navbar */
+        .top-navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: purple;
+        }
+
+        /* Main Content Styling */
+        main {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px; /* Increased font size */
+        }
+
+        h2 {
+            font-size: 24px; /* Increased font size */
+        }
+
+        p {
+            font-size: 18px; /* Increased font size */
+        }
+
+        .team-member h3 {
+            font-size: 20px; /* Increased font size */
+        }
+
+        .team-member p {
+            font-size: 16px; /* Kept the same or adjusted as needed */
+        }
+
+        .team-section {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px; /* Add some spacing above the team section */
+        }
+
+        .team-member {
+            text-align: center;
+            flex: 1; /* Distribute space equally */
+            margin: 0 10px; /* Margin between team members */
+        }
+
+        /* Footer styles */
+    
+
+        footer {
+             background-color: #2c3e50;
+             color: white;
+             padding: 15px 0;
+             text-align: center;
+             width: 100%;
+             position: absolute;
+             bottom: 0;
+             font-size: 20px;
+           }
+
+        footer a:hover {
+            text-decoration: none;
+            color: purple;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-navbar">
+        <div class="logo">MyWebsite</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>About Us</h1>
+        <p>Welcome to Language and Culture Services! We are a group of students passionate about bridging language and cultural barriers. Our goal is to connect people and foster communication and understanding across cultures.</p>
+        <p>Whether you need help with translation services, travel guides, or just want to explore cultural diversity, our student-driven team is here to support you!</p>
+
+        <h2>Meet Our Team</h2>
+        <div class="team-section">
+            <div class="team-member">
+                <h3>Arpan Paudel</h3>
+                <p>Student & Founder</p>
+                <p>Arpan is studying computer science and has a deep interest in creating tools to ease communication across languages.</p>
+            </div>
+            <div class="team-member">
+                <h3>Samip Nepal</h3>
+                <p>Student & Lead Translator</p>
+                <p>Samip, a language enthusiast, is currently studying linguistics and loves helping others break language barriers.</p>
+            </div>
+            <div class="team-member">
+                <h3>Sujan Dhungana</h3>
+                <p>Student & Culture Expert</p>
+                <p>Sujan is a student of anthropology and is passionate about exploring and sharing knowledge of different cultures.</p>
+            </div>
+            <div class="team-member">
+                <h3>Pratham Bist</h3>
+                <p>Student & Web Developer</p>
+                <p>Pratham is a computer science student who enjoys building user-friendly tools and websites for seamless communication.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+    </footer>
+</body>
+</html>

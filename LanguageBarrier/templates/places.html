@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kathmandu Tourist Guide</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f5;
+    color: #333;
+}
+
+header {
+    background-color:#2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+#searchBar {
+    width: 80%;
+    padding: 10px;
+    margin: 20px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.places-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.place {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 20px);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.place:hover {
+    transform: translateY(-5px);
+}
+
+.place-description {
+    padding: 20px;
+    flex: 1;
+}
+
+.place-img {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    padding-right: 7px;
+}
+
+.guides-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.guide-profile {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+p {
+    margin: 5px 0;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <pre><h1>Guide recomdation for different
+place in Kathmandu</h1></pre>
+        <input type="text" id="searchBar" placeholder="Search for a place..." oninput="filterPlaces()">
+    </header>
+
+    <div class="container">
+        <div class="places-list" id="placesList">
+            <div class="place" onclick="location.href='guides.html?place=swayambhunath'">
+                <div class="place-description">
+                    <h2>Swayambhunath (Monkey Temple)</h2>
+                    <p>Known for its stunning views of the city and a blend of Buddhist and Hindu culture.</p>
+                </div>
+                <img src="{% static '/images/swayambhunath.jpg'%}" alt="Swayambhunath" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=pashupatinath'">
+                <div class="place-description">
+                    <h2>Pashupatinath Temple</h2>
+                    <p>One of the holiest temples for Hindus, located on the banks of the Bagmati River.</p>
+                </div>
+                <img src="{% static '/images/pashupatinath.jpg'%}" alt="Pashupatinath" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=boudhanath'">
+                <div class="place-description">
+                    <h2>Boudhanath Stupa</h2>
+                    <p>A UNESCO World Heritage site, known for its enormous stupa and vibrant Tibetan culture.</p>
+                </div>
+                <img src="{% static '/images/boudhanath.jpg'%}" alt="Boudhanath" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=durbarSquare'">
+                <div class="place-description">
+                    <h2>Kathmandu Durbar Square</h2>
+                    <p>A historic palace complex showcasing Nepalese architecture and rich history.</p>
+                </div>
+                <img src="{% static '/images/durbarsquare.jpg'%}" alt="Durbar Square" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=thamel'">
+                <div class="place-description">
+                    <h2>Thamel</h2>
+                    <p>The bustling tourist district filled with shops, restaurants, and vibrant nightlife.</p>
+                </div>
+                <img src="{% static '/images/thamel.jpg'%}" alt="Thamel" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=gardenOfDreams'">
+                <div class="place-description">
+                    <h2>Garden of Dreams</h2>
+                    <p>A serene oasis in the heart of Kathmandu, perfect for relaxation and tranquility.</p>
+                </div>
+                <img src="{% static '/images/gardenOfDreams.jpg'%}" alt="Garden of Dreams" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=hanumanDhoka'">
+                <div class="place-description">
+                    <h2>Hanuman Dhoka Palace</h2>
+                    <p>The historic royal palace complex, showcasing traditional Newari architecture.</p>
+                </div>
+                <img src="{% static '/images/hanumanDhoka.jpg'%}" alt="Hanuman Dhoka" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=chandragiri'">
+                <div class="place-description">
+                    <h2>Chandragiri Hill</h2>
+                    <p>A scenic hill offering panoramic views of the Himalayas and Kathmandu Valley.</p>
+                </div>
+                <img src="{% static '/images/chandragiri.jpg'%}" alt="Chandragiri Hill" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=nagarjun'">
+                <div class="place-description">
+                    <h2>Nagarjun Forest Reserve</h2>
+                    <p>A beautiful forested area perfect for hiking and enjoying nature.</p>
+                </div>
+                <img src="{% static '/images/nagarjun.jpg'%}" alt="Nagarjun Forest Reserve" class="place-img">
+            </div>
+
+            <div class="place" onclick="location.href='guides.html?place=patan'">
+                <div class="place-description">
+                    <h2>Patan Durbar Square</h2>
+                    <p>A UNESCO World Heritage Site known for its stunning architecture and cultural richness.</p>
+                </div>
+                <img src="{% static '/images/patan.jpg'%}" alt="Patan Durbar Square" class="place-img">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to filter places based on search input
+        function filterPlaces() {
+            const searchInput = document.getElementById('searchBar').value.toLowerCase();
+            const places = document.querySelectorAll('.place');
+
+            places.forEach(place => {
+                const placeName = place.querySelector('h2').textContent.toLowerCase();
+                if (placeName.includes(searchInput)) {
+                    place.style.display = 'flex';
+                } else {
+                    place.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

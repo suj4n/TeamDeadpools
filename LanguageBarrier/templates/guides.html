@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Guides</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f5;
+    color: #333;
+}
+
+header {
+    background-color:#2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+#searchBar {
+    width: 80%;
+    padding: 10px;
+    margin: 20px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.places-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.place {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 20px);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.place:hover {
+    transform: translateY(-5px);
+}
+
+.place-description {
+    padding: 20px;
+    flex: 1;
+}
+
+.place-img {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    padding-right: 7px;
+}
+
+.guides-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.guide-profile {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+p {
+    margin: 5px 0;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Tour Guides for <span id="placeTitle"></span></h1>
+    </header>
+
+    <div class="container">
+        <div class="guides-list" id="guidesList">
+            <!-- The guides for each place will appear here based on the place chosen -->
+        </div>
+    </div>
+
+    <script>
+        // Get place from URL query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const place = urlParams.get('place');
+
+        const guideData = {
+            swayambhunath: {
+                placeName: 'Swayambhunath (Monkey Temple)',
+                guides: [
+                    { name: 'Rajesh Shrestha', experience: '8 years', languages: 'English, Nepali, Spanish', contact: 'rajesh123@example.com', phone: '9812345678' },
+                    { name: 'Maya Lama', experience: '5 years', languages: 'English, French, Nepali', contact: 'maya456@example.com', phone: '9823456789' },
+                    { name: 'Raju Sherpa', experience: '6 years', languages: 'English, German, Nepali', contact: 'raju789@example.com', phone: '9834567890' }
+                ]
+            },
+            pashupatinath: {
+                placeName: 'Pashupatinath Temple',
+                guides: [
+                    { name: 'Anita Bhattarai', experience: '10 years', languages: 'English, Hindi, Nepali, Mandarin', contact: 'anita321@example.com', phone: '9845678901' },
+                    { name: 'Kiran Neupane', experience: '7 years', languages: 'English, Spanish, Nepali', contact: 'kiran654@example.com', phone: '9856789012' },
+                    { name: 'Sita Maharjan', experience: '5 years', languages: 'English, Nepali, Japanese', contact: 'sita987@example.com', phone: '9867890123' }
+                ]
+            },
+            boudhanath: {
+                placeName: 'Boudhanath Stupa',
+                guides: [
+                    { name: 'Tashi Lama', experience: '6 years', languages: 'English, Tibetan, Nepali, Korean', contact: 'tashi159@example.com', phone: '9878901234' },
+                    { name: 'Dorje Sherpa', experience: '8 years', languages: 'English, Japanese, Nepali', contact: 'dorje753@example.com', phone: '9889012345' },
+                    { name: 'Pasang Tamang', experience: '5 years', languages: 'English, Nepali, French', contact: 'pasang258@example.com', phone: '9890123456' }
+                ]
+            },
+            durbarSquare: {
+                placeName: 'Kathmandu Durbar Square',
+                guides: [
+                    { name: 'Suman Maharjan', experience: '5 years', languages: 'English, Newari, Nepali, Russian', contact: 'suman369@example.com', phone: '9801234567' },
+                    { name: 'Pratap Shrestha', experience: '9 years', languages: 'English, Hindi, Nepali', contact: 'pratap147@example.com', phone: '9812345670' },
+                    { name: 'Anil Tamrakar', experience: '6 years', languages: 'English, Nepali, Arabic', contact: 'anil258@example.com', phone: '9823456781' }
+                ]
+            },
+            thamel: {
+                placeName: 'Thamel',
+                guides: [
+                    { name: 'Krishna Rai', experience: '4 years', languages: 'English, Nepali, French', contact: 'krishna369@example.com', phone: '9834567892' },
+                    { name: 'Bina Adhikari', experience: '3 years', languages: 'English, Hindi, Nepali, German', contact: 'bina654@example.com', phone: '9845678903' },
+                    { name: 'Samir Ghimire', experience: '5 years', languages: 'English, Nepali, Japanese', contact: 'samir951@example.com', phone: '9856789014' }
+                ]
+            },
+            gardenOfDreams: {
+                placeName: 'Garden of Dreams',
+                guides: [
+                    { name: 'Nisha Khadka', experience: '5 years', languages: 'English, Nepali, Chinese', contact: 'nisha852@example.com', phone: '9867890125' },
+                    { name: 'Arjun Bhatta', experience: '6 years', languages: 'English, Nepali, Italian', contact: 'arjun369@example.com', phone: '9878901236' },
+                    { name: 'Puja Thapa', experience: '4 years', languages: 'English, Nepali, Hindi', contact: 'puja147@example.com', phone: '9889012347' }
+                ]
+            },
+            hanumanDhoka: {
+                placeName: 'Hanuman Dhoka Palace',
+                guides: [
+                    { name: 'Rita Joshi', experience: '7 years', languages: 'English, Nepali, Russian', contact: 'rita258@example.com', phone: '9890123458' },
+                    { name: 'Bimal Yadav', experience: '5 years', languages: 'English, Nepali, French', contact: 'bimal369@example.com', phone: '9801234569' },
+                    { name: 'Sanjay Pandey', experience: '4 years', languages: 'English, Hindi, Nepali', contact: 'sanjay456@example.com', phone: '9812345671' }
+                ]
+            },
+            chandragiri: {
+                placeName: 'Chandragiri Hill',
+                guides: [
+                    { name: 'Suresh Thapa', experience: '8 years', languages: 'English, Nepali, Spanish', contact: 'suresh987@example.com', phone: '9823456782' },
+                    { name: 'Kumari Baral', experience: '6 years', languages: 'English, Nepali, Mandarin', contact: 'kumari654@example.com', phone: '9834567893' },
+                    { name: 'Manoj Gurung', experience: '5 years', languages: 'English, Nepali, Korean', contact: 'manoj321@example.com', phone: '9845678904' }
+                ]
+            },
+            nagarjun: {
+                placeName: 'Nagarjun Forest Reserve',
+                guides: [
+                    { name: 'Kiran Rai', experience: '5 years', languages: 'English, Nepali, French', contact: 'kiran.rai159@example.com', phone: '9856789015' },
+                    { name: 'Dipak Sherpa', experience: '6 years', languages: 'English, Nepali, Japanese', contact: 'dipak753@example.com', phone: '9867890126' },
+                    { name: 'Pratik Shrestha', experience: '4 years', languages: 'English, Nepali, Spanish', contact: 'pratik852@example.com', phone: '9878901237' }
+                ]
+            },
+            patan: {
+                placeName: 'Patan Durbar Square',
+                guides: [
+                    { name: 'Neeta Poudel', experience: '7 years', languages: 'English, Nepali, Arabic', contact: 'neeta963@example.com', phone: '9889012348' },
+                    { name: 'Tirtha Subedi', experience: '5 years', languages: 'English, Nepali, German', contact: 'tirtha741@example.com', phone: '9801234560' },
+                    { name: 'Bhuvan Thapa', experience: '4 years', languages: 'English, Nepali, Mandarin', contact: 'bhuvan258@example.com', phone: '9812345672' }
+                ]
+            }
+        };
+        
+
+        // Populate guides based on the selected place
+        document.getElementById("placeTitle").innerText = guideData[place].placeName;
+        const guidesList = document.getElementById("guidesList");
+        guideData[place].guides.forEach(guide => {
+            const guideProfile = document.createElement("div");
+            guideProfile.className = "guide-profile";
+            guideProfile.innerHTML = `
+                <h3>${guide.name}</h3>
+                <p>Experience: ${guide.experience}</p>
+                <p>Languages: ${guide.languages}</p>
+                <p>Contact: <a href="mailto:${guide.contact}">${guide.contact}</a></p>
+            `;
+            guidesList.appendChild(guideProfile);
+        });
+    </script>
+
+</body>
+</html>

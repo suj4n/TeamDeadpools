@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Route Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .top-navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: purple;
+        }
+
+        main {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-container label {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .input-container input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+        }
+
+        .input-container button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #16a085;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input-container button:hover {
+            background-color: #149574;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 0; 
+            text-align: center;
+            width: 100%;
+            position: relative;
+            font-size: 20px; 
+            margin-top: 40px; /* Added margin for spacing */
+        }
+
+        footer a {
+            color: white; 
+            padding-left: 1rem;
+            text-decoration: none; 
+        }
+
+        footer a:hover {
+            text-decoration: none;
+            color: purple; 
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-navbar">
+        <a id='logo' href="{% url 'home' %}"><div class="logo">MyWebsite</div></a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}"><span>Home</span></a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Leaflet Route Map</h2>
+        <div class="input-container">
+            <label for="start">Start Location:</label>
+            <input type="text" id="start" placeholder="e.g. New York, NY">
+        </div>
+        <div class="input-container">
+            <label for="end">End Location:</label>
+            <input type="text" id="end" placeholder="e.g. Los Angeles, CA">
+        </div>
+        <div class="input-container">
+            <button id="routeBtn">Show Route</button>
+        </div>
+        <div id="map"></div>
+    </main>
+
+    <footer>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([37.8, -96], 4); // Centered on the US
+
+        // Set up the tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        let control;
+
+        // Function to create a route
+        function createRoute() {
+            const start = document.getElementById('start').value;
+            const end = document.getElementById('end').value;
+
+            // Clear previous route
+            if (control) {
+                map.removeControl(control);
+            }
+
+            // Use geocoder to get coordinates for the start location
+            const geocoder = L.Control.Geocoder.nominatim();
+            geocoder.geocode(start, function (results) {
+                if (results.length > 0) {
+                    const startLatLng = results[0].center;
+
+                    // Use geocoder to get coordinates for the end location
+                    geocoder.geocode(end, function (results) {
+                        if (results.length > 0) {
+                            const endLatLng = results[0].center;
+
+                            // Create a new routing control
+                            control = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(startLatLng.lat, startLatLng.lng),
+                                    L.latLng(endLatLng.lat, endLatLng.lng)
+                                ],
+                                routeWhileDragging: true
+                            }).addTo(map);
+
+                            // Pan to the route
+                            map.fitBounds(control.getWaypoints().map(wp => wp.latLng));
+                        } else {
+                            alert("Could not find the end location.");
+                        }
+                    });
+                } else {
+                    alert("Could not find the start location.");
+                }
+            });
+        }
+
+        // Event listener for button
+        document.getElementById('routeBtn').addEventListener('click', createRoute);
+    </script>
+</body>
+</html>

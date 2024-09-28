@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+}
+
+a{
+    text-decoration: none;
+}
+.top-navbar {
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: purple;
+}
+
+/* Main Content Styling */
+main {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Grid container for partitions - Adjusted for 3x2 */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Changed to 3 columns */
+    gap: 20px;
+    align-content: center;
+    position: relative;
+}
+
+/* Box for each feature */
+.grid-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc; /* Thin outline with light gray color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s; 
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none; 
+    z-index: 1;
+}
+
+/* Hover effect on the box */
+.grid-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Icons and Text inside each box */
+.grid-item i {
+    font-size: 40px;
+    color: #16a085;
+    margin-bottom: 10px;
+}
+
+.grid-item h3 {
+    font-size: 22px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.grid-item p {
+    font-size: 16px;
+    color: #7f8c8d;
+}
+
+/* Footer styles */
+footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 0; 
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    font-size: 20px; 
+}
+
+footer a {
+    color: white; 
+    padding-left: 1rem;
+    text-decoration: none; 
+}
+
+footer a:hover {
+    text-decoration: none;
+    color: purple; 
+}
+    </style>
+</head>
+<body>
+    <!-- Remove the sidebar and keep this top navigation -->
+    <nav class="top-navbar">
+        <a id = 'logo' href="{% url 'home' %} "><div class="logo">MyWebsite</div></a>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}"><span>Home</span></a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Welcome to Language and Culture Services</h1>
+        <p>Breaking barriers with easy-to-use tools for translation, mapping, currency conversion, and more!</p>
+
+        <!-- Grid layout for feature sections -->
+        <a href="{% url 'translate' %}"><div class="grid-container">
+            <div class="grid-item">
+                <i>🌐</i>
+                <h3>Translation</h3>
+                <p>Translate text into multiple languages instantly and break language barriers easily.</p>
+            </div></a>
+
+            <a href="{% url 'currency' %}"> <div class="grid-item">
+                <i>💰</i>
+                <h3>Currency Converter</h3>
+                <p>Convert between various currencies quickly with up-to-date exchange rates.</p>
+            </div></a>
+
+            <a href="{% url 'map' %}"><div class="grid-item">
+                <i>🗺️</i>
+                <h3>Map</h3>
+                <p>Explore global maps with ease and find your destination efficiently.</p>
+            </div></a>
+
+            <a href="{% url 'blog' %}"><div class="grid-item">
+                <i>✍️</i>
+                <h3>Blog</h3>
+                <p>Read articles and tips about language, culture, and travel from our experts.</p>
+            </div></a>
+            <a href="{% url 'weather' %}" class="grid-item">
+                <i>☁️</i>
+                <h3>Weather</h3>
+                <p>Get the latest weather updates for your location and beyond.</p>
+            </a>
+            <a href="{% url 'places' %}" class="grid-item">
+                <i>📚</i>
+                <h3>Guides</h3>
+                <p>Explore guides for travel tips, culture, and more!</p>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+    </footer>
+</body>
+</html>
