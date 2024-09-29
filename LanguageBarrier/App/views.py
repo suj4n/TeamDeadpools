@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
 from .models import Post
 import json
@@ -14,10 +14,6 @@ def home(request):
 
 def map(request):
     return render(request, 'map.html')
-
-from django.shortcuts import render, redirect
-from .models import Post  # Make sure to import your Post model
-from .forms import PostForm  # Import your form
 
 def blog(request):
     # Get the search query from GET parameters
@@ -125,3 +121,7 @@ def updatePost(request, pk):
     
     context = {'form': form}
     return render(request, "update_post.html", context)
+
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'post_detail.html', {'post': post})

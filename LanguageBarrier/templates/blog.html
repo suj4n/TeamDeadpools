@@ -156,9 +156,16 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+        a{
+            text-decoration: none;
+        }
 
         .btn-danger:hover {
             background-color: #c0392b;
+        }
+        .container-mt-5{
+            margin-top: 5%;
+            opacity: 1;
         }
 
         /* Footer styles */
@@ -202,7 +209,7 @@
     </nav>
 
     <main>
-        <div class="container mt-5">
+        <div class="container-mt-5">
             <h2>Blog Posts</h2>
 
             <!-- Search Form -->
@@ -237,31 +244,28 @@
                 <button type="submit" class="btn btn-primary">Create Post</button>
             </form> -->
 
-            <!-- List of blog posts -->
-            <hr>
-            <div  id="post">
-            <h3>All Posts</h3>
-            {% if posts %}
-                <div id="card">
-                    {% for post in posts %}
-                        <ul class="list-group-item">
-                            <h5>{{ post.title }}</h5>
-                            <p>{{ post.para }}</p>
-                            <small>Created: {{ post.created }}</small>
-                        </div>
-                            <!-- <div class="mt-2">
-                                <a href="{% url 'update_post' post.id %}" class="btn btn-info">Update</a>
-                                <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete</a>
-                            </div> -->
-                        </ul>
-                    {% endfor %}
-                </ul>
+            <div id="post">
+                <h3>All Posts</h3>
+                {% if posts %}
+                    <div id="card">
+                        {% for post in posts %}
+                            <ul class="list-group-item">
+                                <h5>{{ post.title }}</h5>
+            
+                                <!-- Display a truncated preview (e.g., first 100 characters) -->
+                                <p>{{ post.para|truncatechars:100 }}</p>
+            
+                                <!-- Read More button linking to detailed post page -->
+                                <a href="{% url 'post_detail' post.id %}" class="btn btn-info">Read More</a>
+            
+                                <small>Created: {{ post.created }}</small>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No posts available.</p>
+                {% endif %}
             </div>
-
-            {% else %}
-                <p>No posts available.</p>
-            {% endif %}
-        </div>
     </main>
 
     <footer>
