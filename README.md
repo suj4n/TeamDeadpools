@@ -40,11 +40,3 @@ To get started with the project, follow these steps:
     ```sh
     python manage.py runserver
     ```
-
-## Contributing
-
-We welcome contributions from the community. Please read our [contributing guidelines](CONTRIBUTING.md) for more information.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
